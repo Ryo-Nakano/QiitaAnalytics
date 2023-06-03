@@ -4,9 +4,9 @@ const storeItemData = () => {
   // ① items を取得
   const items = fetchItems();
   // ② 取得したデータをシート出力用に成形
-  const outputData = serialize(items);
+  const serializedData = serialize(items);
   // ③ 成形済みデータをシートの最終行に追加
-  addToLastRow(outputData);
+  addToLastRow(serializedData);
 };
 
 const fetchItems = () => {
@@ -21,7 +21,18 @@ const fetchItems = () => {
   return items;
 };
 
-const serialize = (items) => {};
+const serialize = (items) => {
+  return items.map(item => {
+    const id = item.id;
+    const title = item.title;
+    const createdAt = item.created_at;
+    const viewCouont = item.page_views_count;
+    const likesCount = item.likes_count;
+    const stocksCount = item.stocks_count;
+    return [id, title, createdAt, viewCouont, likesCount, stocksCount];
+  });
+};
+
 const addToLastRow = (data) => {};
 
 export default storeItemData;

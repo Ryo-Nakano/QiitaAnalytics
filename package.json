@@ -6,9 +6,9 @@
   "scripts": {
     "build": "webpack",
     "build:watch": "webpack --watch",
-    "push": "clasp push",
-    "push:watch": "clasp push --watch",
-    "deploy": "webpack && clasp push"
+    "push": "clasp push --auth ~/.clasprc_private.json",
+    "push:watch": "clasp push --auth ~/.clasprc_private.json --watch",
+    "deploy": "webpack && clasp push --auth ~/.clasprc_private.json"
   },
   "keywords": [],
   "author": "",

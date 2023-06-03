@@ -1,3 +1,4 @@
+import { SSID } from 'constants';
 import qiitaApi from 'qiita_api';
 
 const storeItemData = () => {
@@ -33,6 +34,29 @@ const serialize = (items) => {
   });
 };
 
-const addToLastRow = (data) => {};
+const addToLastRow = (data) => {
+  try {
+    if(!data.length) return;
+    const getLastRow = (sheet) => {
+      return sheet.getDataRange().getValues().filter(row => row[0]).length + 1;
+    };
+
+    const spreadsheet = SpreadsheetApp.openById(SSID);
+    const dbSheet = spreadsheet.getSheetByName("DB");
+
+    const lastRow = getLastRow(dbSheet);
+    const fromRow = lastRow;
+    const fromCol = 1;
+    const rows = data.length;
+    const cols = data[0].length;
+    const range = dbSheet.getRange(fromRow, fromCol, rows, cols);
+
+    range.setValues(data);
+  }
+  catch(error) {
+    console.error(error);
+    throw Error('failed to export data ...');
+  }
+};
 
 export default storeItemData;

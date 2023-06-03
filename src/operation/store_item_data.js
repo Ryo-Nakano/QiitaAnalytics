@@ -34,11 +34,12 @@ const serialize = (items) => {
       const date = Utilities.formatDate(new Date(), 'JST', 'yyyy-MM-dd');
       const id = item.id;
       const title = item.title;
-      const createdAt = item.created_at;
+      const isPrivate = item.private;
+      const createdAt = item.created_at.split('T')[0];
       const viewsCouont = item.page_views_count;
       const likesCount = item.likes_count;
       const stocksCount = item.stocks_count;
-      return [date, id, title, createdAt, viewsCouont, likesCount, stocksCount];
+      return [date, id, title, isPrivate, createdAt, viewsCouont, likesCount, stocksCount];
     });
   }
   catch(error) {

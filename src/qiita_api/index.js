@@ -1,7 +1,7 @@
 import { QIITA_API_TOKEN } from 'constants';
 
 const ENDPOINT = 'https://qiita.com/api/v2';
-const PER_PAGE = 20;
+const PER_PAGE = 100;
 
 export default {
   authenticatedUser: {

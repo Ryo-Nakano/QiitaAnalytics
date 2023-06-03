@@ -1,9 +1,5 @@
 import Operation from 'operation';
 import qiitaApi from 'qiita_api';
-import { sampleFunc } from 'sample_module';
-
-// embed imported module function
-global.func1 = sampleFunc;
 
 // embed arrow function
 global.func2 = () => {

@@ -1,12 +1,11 @@
 import { QIITA_API_TOKEN } from 'constants';
 
 const ENDPOINT = 'https://qiita.com/api/v2';
-const PER_PAGE = 100;
 
 export default {
   authenticatedUser: {
     items: {
-      get: ({page}={}) => {
+      get: ({page, perPage}={}) => {
         const options = {
           method: 'get',
           headers: {
@@ -15,7 +14,7 @@ export default {
         };
         const params = {
           page: page || 1,
-          per_page: PER_PAGE,
+          per_page: perPage || 100,
         };
         let url = getUrl(ENDPOINT, 'authenticated_user', 'items', `?${toQueryParams(params)}`);
         const res = UrlFetchApp.fetch(url, options);

@@ -11,27 +11,40 @@ const storeItemData = () => {
 };
 
 const fetchItems = () => {
-  let page = 1;
-  let items = [];
-  while(true) {
-    const res = qiitaApi.authenticatedUser.items.get({page});
-    items = [...items, ...res.body];
-    if(!res.hasNext) break;
-    page += 1;
+  try {
+    let page = 1;
+    let items = [];
+    while(true) {
+      const res = qiitaApi.authenticatedUser.items.get({page});
+      items = [...items, ...res.body];
+      if(!res.hasNext) break;
+      page += 1;
+    }
+    return items;
   }
-  return items;
+  catch(error) {
+    console.error(error);
+    throw Error('faild to fetch data ...');
+  }
 };
 
 const serialize = (items) => {
-  return items.map(item => {
-    const id = item.id;
-    const title = item.title;
-    const createdAt = item.created_at;
-    const viewCouont = item.page_views_count;
-    const likesCount = item.likes_count;
-    const stocksCount = item.stocks_count;
-    return [id, title, createdAt, viewCouont, likesCount, stocksCount];
-  });
+  try {
+    return items.map(item => {
+      const date = Utilities.formatDate(new Date(), 'JST', 'yyyy-MM-dd');
+      const id = item.id;
+      const title = item.title;
+      const createdAt = item.created_at;
+      const viewsCouont = item.page_views_count;
+      const likesCount = item.likes_count;
+      const stocksCount = item.stocks_count;
+      return [date, id, title, createdAt, viewsCouont, likesCount, stocksCount];
+    });
+  }
+  catch(error) {
+    console.error(error);
+    throw Error('failed to serialize data ...');
+  }
 };
 
 const addToLastRow = (data) => {

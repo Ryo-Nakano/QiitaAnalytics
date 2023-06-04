@@ -5,3 +5,4 @@ global.storeItemDataDaily = () => {
 };
 
 global.addTabFunctions = Operation.addTabFunctions;
+global.setQiitaApiToken = Operation.setQiitaApiToken;

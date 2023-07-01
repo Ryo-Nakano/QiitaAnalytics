@@ -9,7 +9,7 @@ function getSpreadSheet() {
   }
   catch(error) {
     const input = showAlertModal();
-    if(!input) return;
+    if(!input) return SpreadsheetApp.getActiveSpreadsheet();
 
     saveProperty('SSID', input);
     showDoneModal();

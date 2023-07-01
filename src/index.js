@@ -1,5 +1,7 @@
 import Operation from 'operation';
 
-global.storeItemDataDaily = Operation.storeItemData;
+global.initializeQiitaAnalytics = Operation.initializeQiitaAnalytics;
 global.addTabFunctions = Operation.addTabFunctions;
+global.storeItemDataDaily = Operation.storeItemData;
 global.setQiitaApiToken = Operation.setQiitaApiToken;
+global.setSpreadsheetId = Operation.setSpreadsheetId;

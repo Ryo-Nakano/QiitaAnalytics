@@ -8,13 +8,13 @@ function getSpreadSheet() {
     return SpreadsheetApp.openById(SSID);
   }
   catch(error) {
-    const input = showAlertModal();
-    if(!input) return SpreadsheetApp.getActiveSpreadsheet();
-
-    saveProperty('SSID', input);
-    showDoneModal();
-
-    return SpreadsheetApp.getActiveSpreadsheet();
+    console.error(error);
+    const msg = [
+      "スプレッドシートID の設定が正しくない可能性があります。",
+      "[各種設定 > スプレッドシートID を設定] から再度設定を行なってください。",
+    ].join('\n');
+    console.warn(msg);
+    throw Error('failed to get spreadsheet ...');
   }
 };
 

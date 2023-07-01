@@ -1,5 +1,5 @@
-import { SSID } from 'constants';
 import qiitaApi from 'qiita_api';
+import { SSID } from 'script_properties';
 
 const storeItemData = () => {
   // ① items を取得

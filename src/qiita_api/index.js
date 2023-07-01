@@ -1,4 +1,4 @@
-import { QIITA_API_TOKEN } from 'constants';
+import { QIITA_API_TOKEN } from 'script_properties';
 
 const ENDPOINT = 'https://qiita.com/api/v2';
 

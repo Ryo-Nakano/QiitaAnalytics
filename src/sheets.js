@@ -1,4 +1,4 @@
-import { SSID } from 'constants';
+import { SSID } from 'script_properties';
 
 export const spreadsheet = getSpreadSheet();
 export const dbSheet = spreadsheet.getSheetByName("DB");

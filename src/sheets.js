@@ -14,7 +14,7 @@ function getSpreadSheet() {
       "[各種設定 > スプレッドシートID を設定] から再度設定を行なってください。",
     ].join('\n');
     console.warn(msg);
-    throw Error('failed to get spreadsheet ...');
+    return SpreadsheetApp.getActiveSpreadsheet();
   }
 };
 

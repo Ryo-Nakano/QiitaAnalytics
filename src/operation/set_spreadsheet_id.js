@@ -1,9 +1,8 @@
 const KEY = 'SSID';
 
 const setSpreadsheetId = () => {
-  const input = showInputModal();
-  if(!input) return;
-  saveProperty(KEY, input);
+  const spreadsheetId = SpreadsheetApp.getActiveSpreadsheet().getId();
+  saveProperty(KEY, spreadsheetId);
   showDoneModal();
 };
 
@@ -44,7 +43,8 @@ const saveProperty = (key, value) => {
 const showDoneModal = () => {
   const ui = SpreadsheetApp.getUi();
   const title = '保存しました';
-  ui.alert(title, '', ui.ButtonSet.OK);
+  const body = 'スプレッドシートID を自動で取得、保存しました。';
+  ui.alert(title, body, ui.ButtonSet.OK);
 };
 
 export default setSpreadsheetId;

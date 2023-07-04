@@ -56,7 +56,7 @@ const addToLastRow = (data) => {
     };
 
     const spreadsheet = SpreadsheetApp.openById(SSID);
-    const dbSheet = spreadsheet.getSheetByName("DB");
+    const dbSheet = spreadsheet.getSheetByName("_DB");
 
     const lastRow = getLastRow(dbSheet);
     const fromRow = lastRow;

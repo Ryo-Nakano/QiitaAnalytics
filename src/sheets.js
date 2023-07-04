@@ -1,7 +1,7 @@
 import { SSID } from 'script_properties';
 
 export const spreadsheet = getSpreadSheet();
-export const dbSheet = spreadsheet.getSheetByName("DB");
+export const dbSheet = spreadsheet.getSheetByName("_DB");
 
 function getSpreadSheet() {
   try {

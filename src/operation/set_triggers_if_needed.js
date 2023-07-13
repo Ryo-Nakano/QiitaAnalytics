@@ -30,7 +30,7 @@ const setStoreItemDataDailyTrigger = () => {
     .newTrigger(STORE_ITEM_DATA_DAILY)
     .timeBased()
     .atHour(23)
-    .nearMinute(50)
+    .nearMinute(35)
     .everyDays(1)
     .create();
 };

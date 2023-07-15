@@ -1,13 +1,22 @@
 import qiitaApi from 'qiita_api';
 import { SSID } from 'script_properties';
 
+const STORE_ITEM_DATA_DAILY = 'storeItemDataDaily';
+
 const storeItemData = () => {
-  // ① items を取得
-  const items = fetchItems();
-  // ② 取得したデータをシート出力用に成形
-  const serializedData = serialize(items);
-  // ③ 成形済みデータをシートの最終行に追加
-  addToLastRow(serializedData);
+  try {
+    // ① items を取得
+    const items = fetchItems();
+    // ② 取得したデータをシート出力用に成形
+    const serializedData = serialize(items);
+    // ③ 成形済みデータをシートの最終行に追加
+    addToLastRow(serializedData);
+  }
+  catch(error) {
+    // Qiita API から 403 が返って来たときの対応
+    // 23:45 前後だとリクエストが集中してて 403 が返ってくることがある...？
+    setTriggerToRetryStoreItemDataIfNeeded();
+  }
 };
 
 const fetchItems = () => {
@@ -70,6 +79,39 @@ const addToLastRow = (data) => {
   catch(error) {
     console.error(error);
     throw Error('failed to export data ...');
+  }
+};
+
+const setTriggerToRetryStoreItemDataIfNeeded = () => {
+  try {
+    // 現在時刻の 1分後 を取得
+    const nextMinute = (() => {
+      const date = new Date();
+      date.setMinutes(date.getMinutes() + 1);
+      return date;
+    })();
+
+    // 今日の 23:55 を取得
+    const today2355 = (() => {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const day = now.getDate();
+      const date = new Date(year, month, day, 23, 55, 0);
+      return date;
+    })();
+
+    // 1分後の時刻が 23:55 を超えている場合 → 処理離脱
+    if (nextMinute > today2355) return console.warn("23:55 を超えていたためトリガーの再設定を取りやめました");
+
+    ScriptApp.newTrigger(STORE_ITEM_DATA_DAILY)
+      .timeBased()
+      .at(nextMinute)
+      .create();
+  }
+  catch(error) {
+    console.error(error);
+    throw Error('failed to set trigger to retry storeItemDataDaily ...');
   }
 };
 

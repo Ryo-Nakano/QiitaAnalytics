@@ -13,8 +13,12 @@ const addTabFunctions = () => {
     name: 'スプレッドシートID を設定',
     functionName: 'setSpreadsheetId',
   });
+  const storeItemData = tabFunction({
+    name: 'Qiita から現時点の記事データを取得してシートに保存',
+    functionName: 'storeItemData',
+  });
 
-  spreadsheet.addMenu('各種設定', [setQiitaApiToken, setSpreadsheetId]);
+  spreadsheet.addMenu('カンタン操作', [setQiitaApiToken, setSpreadsheetId, storeItemData]);
 };
 
 export default addTabFunctions;

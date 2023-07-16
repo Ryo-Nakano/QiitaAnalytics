@@ -1,7 +1,7 @@
 import qiitaApi from 'qiita_api';
 import { SSID } from 'script_properties';
 
-const STORE_ITEM_DATA_DAILY = 'storeItemDataDaily';
+const STORE_ITEM_DATA = 'storeItemData';
 
 const storeItemData = () => {
   try {
@@ -104,14 +104,24 @@ const setTriggerToRetryStoreItemDataIfNeeded = () => {
     // 1分後の時刻が 23:55 を超えている場合 → 処理離脱
     if (nextMinute > today2355) return console.warn("23:55 を超えていたためトリガーの再設定を取りやめました");
 
-    ScriptApp.newTrigger(STORE_ITEM_DATA_DAILY)
+    // 既に storeItemData のトリガーが設定されていた場合 → 削除
+    const triggersToDelete = ScriptApp.getProjectTriggers().filter(trigger => {
+      const handlerFunction = trigger.getHandlerFunction();
+      return handlerFunction == STORE_ITEM_DATA;
+    });
+    triggersToDelete.forEach(trigger => ScriptApp.deleteTrigger(trigger));
+
+    // storeItemData のトリガーを 1分後 に再設定
+    ScriptApp.newTrigger(STORE_ITEM_DATA)
       .timeBased()
       .at(nextMinute)
       .create();
+
+    console.log(`${STORE_ITEM_DATA} のトリガーを 1分後 に再設定しました`);
   }
   catch(error) {
     console.error(error);
-    throw Error('failed to set trigger to retry storeItemDataDaily ...');
+    throw Error('failed to set trigger to retry storeItemData ...');
   }
 };
 

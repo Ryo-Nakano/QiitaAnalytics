@@ -1,8 +1,8 @@
-import Operation from 'operation';
+import Operations from 'operations';
 
-global.initializeQiitaAnalytics = Operation.initializeQiitaAnalytics;
-global.addTabFunctions = Operation.addTabFunctions;
-global.storeItemDataDaily = Operation.storeItemData;
-global.storeItemData = Operation.storeItemData;
-global.setQiitaApiToken = Operation.setQiitaApiToken;
-global.setSpreadsheetId = Operation.setSpreadsheetId;
+global.initializeQiitaAnalytics = Operations.initializeQiitaAnalytics;
+global.addTabFunctions = Operations.addTabFunctions;
+global.storeItemDataDaily = Operations.storeItemData;
+global.storeItemData = Operations.storeItemData;
+global.setQiitaApiToken = Operations.setQiitaApiToken;
+global.setSpreadsheetId = Operations.setSpreadsheetId;

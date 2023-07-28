@@ -1,5 +1,5 @@
 import qiitaApi from 'qiita_api';
-import { SSID } from 'script_properties';
+import { addToLastRow, dbSheet, updateRow } from 'sheets';
 
 const STORE_ITEM_DATA = 'storeItemData';
 
@@ -9,8 +9,8 @@ const storeItemData = () => {
     const items = fetchItems();
     // ② 取得したデータをシート出力用に成形
     const serializedData = serialize(items);
-    // ③ 成形済みデータをシートの最終行に追加
-    addToLastRow(serializedData);
+    // ③ 成形済みデータをシートに反映
+    updateOrAddData(serializedData);
   }
   catch(error) {
     // Qiita API から 403 が返って来たときの対応
@@ -57,24 +57,33 @@ const serialize = (items) => {
   }
 };
 
-const addToLastRow = (data) => {
+const updateOrAddData = (data) => {
   try {
     if(!data.length) return;
-    const getLastRow = (sheet) => {
-      return sheet.getDataRange().getValues().filter(row => row[0]).length + 1;
-    };
 
-    const spreadsheet = SpreadsheetApp.openById(SSID);
-    const dbSheet = spreadsheet.getSheetByName("_DB");
+    const dbData = dbSheet.getDataRange().getValues().slice(1);
+    const dataToAdd = [];
 
-    const lastRow = getLastRow(dbSheet);
-    const fromRow = lastRow;
-    const fromCol = 1;
-    const rows = data.length;
-    const cols = data[0].length;
-    const range = dbSheet.getRange(fromRow, fromCol, rows, cols);
+    for(const rowData of data) {
+      const updateIndex = (() => {
+        const date = rowData[0];
+        const id = rowData[1];
+        const index = dbData.findIndex(d => {
+          const dateMatch = date == Utilities.formatDate(d[0], 'JST', 'yyyy-MM-dd');
+          const idMatch = id == d[1];
+          return dateMatch && idMatch;
+        });
+        return index;
+      })();
 
-    range.setValues(data);
+      if(updateIndex == -1) {
+        dataToAdd.push(rowData);
+      } else {
+        updateRow({ sheet: dbSheet, rowData: [rowData], rowNum: updateIndex + 2 });
+      }
+    }
+
+    if(dataToAdd.length) addToLastRow({ sheet: dbSheet, data: dataToAdd });
   }
   catch(error) {
     console.error(error);

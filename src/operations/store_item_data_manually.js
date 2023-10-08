@@ -3,7 +3,7 @@ import { addToLastRow, dbSheet, updateRow } from 'sheets';
 
 const STORE_ITEM_DATA = 'storeItemData';
 
-const storeItemData = () => {
+const storeItemDataManually = () => {
   try {
     // ① items を取得
     const items = fetchItems();
@@ -134,4 +134,4 @@ const setTriggerToRetryStoreItemDataIfNeeded = () => {
   }
 };
 
-export default storeItemData;
+export default storeItemDataManually;

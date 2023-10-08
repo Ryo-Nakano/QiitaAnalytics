@@ -55,6 +55,6 @@ function getSpreadSheet() {
   }
 };
 
-function getLastRow (sheet) {
+export function getLastRow (sheet) {
   return sheet.getDataRange().getValues().filter(row => row[0]).length + 1;
 };

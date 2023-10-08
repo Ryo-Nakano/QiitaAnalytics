@@ -1,7 +1,7 @@
 import qiitaApi from 'qiita_api';
 import { addToLastRow, dbSheet, updateRow } from 'sheets';
 
-const STORE_ITEM_DATA = 'storeItemData';
+const RETRY_STORE_ITEM_DATA = 'retryStoreItemData';
 
 const storeItemDataManually = () => {
   try {
@@ -116,17 +116,17 @@ const setTriggerToRetryStoreItemDataIfNeeded = () => {
     // 既に storeItemData のトリガーが設定されていた場合 → 削除
     const triggersToDelete = ScriptApp.getProjectTriggers().filter(trigger => {
       const handlerFunction = trigger.getHandlerFunction();
-      return handlerFunction == STORE_ITEM_DATA;
+      return handlerFunction == RETRY_STORE_ITEM_DATA;
     });
     triggersToDelete.forEach(trigger => ScriptApp.deleteTrigger(trigger));
 
     // storeItemData のトリガーを 1分後 に再設定
-    ScriptApp.newTrigger(STORE_ITEM_DATA)
+    ScriptApp.newTrigger(RETRY_STORE_ITEM_DATA)
       .timeBased()
       .at(nextMinute)
       .create();
 
-    console.log(`${STORE_ITEM_DATA} のトリガーを 1分後 に再設定しました`);
+    console.log(`${RETRY_STORE_ITEM_DATA} のトリガーを 1分後 に再設定しました`);
   }
   catch(error) {
     console.error(error);
